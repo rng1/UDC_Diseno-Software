@@ -7,9 +7,9 @@ import static e3.Melody.Accidentals.*;
 
 public class Melody {
 
-    public ArrayList<tNote> melody;
+    public ArrayList<tNote> melody; //declare the array
 
-    public Melody () { melody = new ArrayList<>(); }
+    public Melody () { melody = new ArrayList<>(); } //initialize the array
 
     public enum Accidentals { FLAT, SHARP, NATURAL }
     public enum Notes { DO, RE, MI, FA, SOL, LA, SI }
@@ -28,6 +28,7 @@ public class Melody {
         public void setTime(float t) { time = t; }
         public float getTime() { return time; }
 
+        //new equals to compare notes
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -36,6 +37,7 @@ public class Melody {
             return Float.compare(tNote.time, time) == 0 && note == tNote.note && accidental == tNote.accidental;
         }
 
+        //new hash to compare notes
         @Override
         public int hashCode() {
             switch (note) {
@@ -51,7 +53,7 @@ public class Melody {
 
     public void addNote ( Notes note , Accidentals accidental , float time )
     {
-        if(note == null || accidental == null || time == 0) { throw new IllegalArgumentException(); }
+        if(note == null || accidental == null || time == 0) { throw new IllegalArgumentException(); } //invalid arguments
         tNote newNote = new tNote();
         newNote.setNotes(note);
         newNote.setAccidentals(accidental);
@@ -61,7 +63,7 @@ public class Melody {
 
     public Notes getNote (int index )
     {
-        if(index < 0 || index >= melody.size()) { throw new IllegalArgumentException(); }
+        if(index < 0 || index >= melody.size()) { throw new IllegalArgumentException(); } //outside the array
         return melody.get(index).getNotes();
     }
 
@@ -160,28 +162,28 @@ public class Melody {
     {
         //return Objects.hash(melody);
         int hash = 0;
-        for (Melody.tNote tNote : melody) { hash = hash * 10 + tNote.hashCode(); }
+        for (Melody.tNote tNote : melody) { hash = hash * 10 + tNote.hashCode(); } //do a hash for the each note
         return hash;
     }
 
     @Override
     public String toString ()
     {
-        int i;
-        StringBuilder s = new StringBuilder();
-        String not, acc;
+        int i; //counter
+        StringBuilder s = new StringBuilder(); //declare and initilize string
+        String not, acc; //string for notes and accidentals
         for(i = 0; i < melody.size(); i++)
         {
-            not = melody.get(i).getNotes().name();
+            not = melody.get(i).getNotes().name(); //get the notes
 
-            acc = switch (melody.get(i).getAccidental()) {
+            acc = switch (melody.get(i).getAccidental()) { //get the accidental
                 case FLAT -> "b";
                 case SHARP -> "#";
                 case NATURAL -> "";
             };
 
-            s.append(not).append(acc).append("(").append(melody.get(i).getTime()).append(")");
-            if(i != (melody.size() - 1)) { s.append(" "); }
+            s.append(not).append(acc).append("(").append(melody.get(i).getTime()).append(")"); //build the string
+            if(i != (melody.size() - 1)) { s.append(" "); } //add a new space if not finished
         }
         return s.toString();
     }
