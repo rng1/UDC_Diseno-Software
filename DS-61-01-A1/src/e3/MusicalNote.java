@@ -6,6 +6,62 @@ import static e3.Melody.Accidentals.*;
 
 public record MusicalNote(Melody.Notes note, Melody.Accidentals accidental, float time) {
 
+    public int getSemitono(){
+        int semi = 0;
+        switch(note) {
+            case DO -> {
+                switch (accidental) {
+                    case FLAT -> semi = 12;
+                    case NATURAL -> semi = 1;
+                    case SHARP -> semi = 2;
+                }
+            }
+            case RE -> {
+                switch (accidental) {
+                    case FLAT -> semi = 2;
+                    case NATURAL -> semi = 3;
+                    case SHARP -> semi = 4;
+                }
+            }
+            case MI -> {
+                switch (accidental) {
+                    case FLAT -> semi = 4;
+                    case NATURAL -> semi = 5;
+                    case SHARP -> semi = 6;
+                }
+            }
+            case FA -> {
+                switch (accidental) {
+                    case FLAT -> semi = 5;
+                    case NATURAL -> semi = 6;
+                    case SHARP -> semi = 7;
+                }
+            }
+            case SOL -> {
+                switch (accidental) {
+                    case FLAT -> semi = 7;
+                    case NATURAL -> semi = 8;
+                    case SHARP -> semi = 9;
+                }
+            }
+            case LA -> {
+                switch (accidental) {
+                    case FLAT -> semi = 9;
+                    case NATURAL -> semi = 10;
+                    case SHARP -> semi = 11;
+                }
+            }
+            case SI -> {
+                switch (accidental) {
+                    case FLAT -> semi = 11;
+                    case NATURAL -> semi = 12;
+                    case SHARP -> semi = 1;
+                }
+            }
+        }
+        return semi;
+    }
+
     //new equals to compare notes
     @Override
     public boolean equals(Object o) {

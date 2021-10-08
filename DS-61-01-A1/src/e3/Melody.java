@@ -52,68 +52,30 @@ public class Melody {
     }
 
     @Override
-    public boolean equals ( Object o)
+    public boolean equals (Object o)
     {
         if (this == o) { return true; }
         if (!(o instanceof Melody m)) { return false; }
         if (this.getClass() != o.getClass()) { return false; }
 
-        int i;
-        boolean not = true, acc = true;
+        int i; //counter
         if (this.melody.size() != m.melody.size()) { return false; }
         if (this.getDuration() != m.getDuration()) { return false; }
+
+        //check if they are equal
+        boolean not = true, acc = true; //booleans to check notes and accidentals
         for(i = 0; i < melody.size(); i++) {
             if(this.melody.get(i).note() != m.melody.get(i).note()) { not = false; }
             if(this.melody.get(i).accidental() != m.melody.get(i).accidental()) { acc = false; }
         }
         if (not && acc) { return true; }
 
+        //check if they are equivalent
         for(i = 0; i < melody.size(); i++) {
-            switch(this.melody.get(i).note()){
-                case DO:
-                    switch (this.melody.get(i).accidental()){
-                        case NATURAL: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.SI && m.melody.get(i).accidental() == Accidentals.SHARP)) { return false; } break;
-                        case SHARP: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.RE &&   m.melody.get(i).accidental() == Accidentals.FLAT)) { return false; } break;
-                        case FLAT: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.SI &&   m.melody.get(i).accidental() == Accidentals.NATURAL)) { return false; } break;
-                    } break;
-                case RE:
-                    switch (this.melody.get(i).accidental()){
-                        case NATURAL: if(!this.melody.get(i).equals(m.melody.get(i))) { return false; } break;
-                        case SHARP: if(!(this.melody.get(i).equals(m.melody.get(i))) &&  !(m.melody.get(i).note() == Notes.MI &&   m.melody.get(i).accidental() == Accidentals.FLAT)) { return false; } break;
-                        case FLAT: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.DO &&   m.melody.get(i).accidental() == Accidentals.SHARP)) { return false; } break;
-                    } break;
-                case MI:
-                    switch (this.melody.get(i).accidental()){
-                        case NATURAL: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.FA &&   m.melody.get(i).accidental() == Accidentals.FLAT)) { return false; } break;
-                        case SHARP: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.FA &&   m.melody.get(i).accidental() == Accidentals.NATURAL)) { return false; } break;
-                        case FLAT: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.RE &&   m.melody.get(i).accidental() == Accidentals.SHARP)) { return false; } break;
-                    } break;
-                case FA:
-                    switch (this.melody.get(i).accidental()){
-                        case NATURAL: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.MI &&   m.melody.get(i).accidental() == Accidentals.SHARP)) { return false; } break;
-                        case SHARP: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.SOL &&   m.melody.get(i).accidental() == Accidentals.FLAT)) { return false; } break;
-                        case FLAT: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.MI &&   m.melody.get(i).accidental() == Accidentals.NATURAL)) { return false; } break;
-                    } break;
-                case SOL:
-                    switch (this.melody.get(i).accidental()){
-                        case NATURAL: if(!this.melody.get(i).equals(m.melody.get(i))) { return false; } break;
-                        case SHARP: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.LA &&   m.melody.get(i).accidental() == Accidentals.FLAT)) { return false; } break;
-                        case FLAT: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.FA &&   m.melody.get(i).accidental() == Accidentals.SHARP)) { return false; } break;
-                    } break;
-                case LA:
-                    switch (this.melody.get(i).accidental()){
-                        case NATURAL: if(!this.melody.get(i).equals(m.melody.get(i))) { return false; } break;
-                        case SHARP: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.SI &&   m.melody.get(i).accidental() == Accidentals.FLAT)) { return false; } break;
-                        case FLAT: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.SOL &&   m.melody.get(i).accidental() == Accidentals.SHARP)) { return false; } break;
-                    } break;
-                case SI:
-                    switch (this.melody.get(i).accidental()){
-                        case NATURAL: if((!this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.DO &&   m.melody.get(i).accidental() == Accidentals.FLAT)) { return false; } break;
-                        case SHARP: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.DO &&   m.melody.get(i).accidental() == Accidentals.NATURAL)) { return false; } break;
-                        case FLAT: if(!(this.melody.get(i).equals(m.melody.get(i))) && !(m.melody.get(i).note() == Notes.LA &&   m.melody.get(i).accidental() == Accidentals.SHARP)) { return false; } break;
-                    } break;
-            }
+            if (this.melody.get(i).time() != m.melody.get(i).time()) { return false; }
+            if(this.melody.get(i).getSemitono() != m.melody.get(i).getSemitono()) { return false; }
         }
+
         return true;
     }
 
