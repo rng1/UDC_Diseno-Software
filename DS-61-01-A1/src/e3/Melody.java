@@ -1,9 +1,6 @@
 package e3;
 
 import java.util.ArrayList;
-import java.util.Objects;
-
-import static e3.Melody.Accidentals.*;
 
 public class Melody {
 
