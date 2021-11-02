@@ -1,7 +1,6 @@
 package e1;
 
 public class Teachers extends Members{
-    private final int bonus = 90;
 
     public Teachers(String f_name, String l_name, int age, int horcruxes) {
         super(f_name, l_name, age, horcruxes);
@@ -17,18 +16,17 @@ public class Teachers extends Members{
     }
 
     private Subject subject;
-    private int reward;
-    private int salary;
 
     public Teachers(String f_name, String l_name, int age, int horcruxes, Subject subject) {
         super(f_name, l_name, age, horcruxes);
         this.subject = subject;
-        this.reward = this.getReward();
-        this.salary = this.getSalary();
+        double reward = this.getReward();
+        int salary = this.getSalary();
     }
 
-    int getReward() {
-        int aux = getHorcruxes()*bonus;
+    double getReward() {
+        double bonus = 90.0;
+        double aux = getHorcruxes()* bonus;
         if (this.subject == Subject.Defense) aux *= 0.75;
         return aux;
     }

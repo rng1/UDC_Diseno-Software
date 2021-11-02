@@ -1,10 +1,10 @@
 package e1;
 
 public class Members {
-    private String f_name;
-    private String l_name;
-    private int age;
-    private int horcruxes;
+    private final String f_name;
+    private final String l_name;
+    private final int age;
+    private final int horcruxes;
     public Members(String f_name, String l_name, int age, int horcruxes) {
         this.f_name = f_name;
         this.l_name = l_name;
