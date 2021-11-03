@@ -1,9 +1,6 @@
 package e1;
 
 public class Residents extends Members {
-    public Residents(String f_name, String l_name, int age, int horcruxes) {
-        super(f_name, l_name, age, horcruxes);
-    }
 
     public enum House { Gryffindor, Hufflepuff, Ravenclaw, Slytherin }
     public enum Category {
@@ -13,17 +10,16 @@ public class Residents extends Members {
         public abstract double calculate(double n);
     }
 
-    private Category category;
-    private House house;
+    private final Category category;
+    private final House house;
 
     public Residents(String f_name, String l_name, int age, int horcruxes, Category category, House house) {
         super(f_name, l_name, age, horcruxes);
         this.category = category;
         this.house = house;
-        double reward = this.getReward();
     }
 
-    double getReward() {
+    public double getReward() {
         double aux = this.getCategory().calculate(getHorcruxes());
         if(this.house == House.Slytherin) aux *= 2.0;
         return aux;

@@ -16,11 +16,9 @@ public class Staff extends Members{
     public Staff(String f_name, String l_name, int age, int horcruxes, Category category) {
         super(f_name, l_name, age, horcruxes);
         this.category = category;
-        double reward = this.getReward();
-        int salary = this.getSalary();
     }
 
-    double getReward() { return (getCategory().calculate(getHorcruxes())); }
-    int getSalary() {return (getCategory().salary() + 10);}
+    public double getReward() { return (getCategory().calculate(getHorcruxes())); }
+    int getSalary() { return (getCategory().salary() + 10); }
     Staff.Category getCategory() { return category; }
 }

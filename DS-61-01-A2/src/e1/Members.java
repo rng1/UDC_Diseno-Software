@@ -1,6 +1,6 @@
 package e1;
 
-public class Members {
+public abstract class Members {
     private final String f_name;
     private final String l_name;
     private final int age;
@@ -16,4 +16,6 @@ public class Members {
     public String getL_name() { return l_name; }
     public int getAge() { return age; }
     public int getHorcruxes() { return horcruxes; }
+
+    public abstract double getReward();
 }

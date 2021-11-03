@@ -2,10 +2,6 @@ package e1;
 
 public class Teachers extends Members{
 
-    public Teachers(String f_name, String l_name, int age, int horcruxes) {
-        super(f_name, l_name, age, horcruxes);
-    }
-
     public enum Subject {
         Defence { public int salary() { return 500; } },
         Transfiguration { public int salary() { return 400; } },
@@ -15,16 +11,14 @@ public class Teachers extends Members{
         public abstract int salary();
     }
 
-    private Subject subject;
+    private final Subject subject;
 
     public Teachers(String f_name, String l_name, int age, int horcruxes, Subject subject) {
         super(f_name, l_name, age, horcruxes);
         this.subject = subject;
-        double reward = this.getReward();
-        int salary = this.getSalary();
     }
 
-    double getReward() {
+    public double getReward() {
         double bonus = 50.0;
         double aux = getHorcruxes()* bonus;
         if (this.subject == Subject.Defence) aux *= 0.75;

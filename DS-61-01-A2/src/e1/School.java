@@ -2,34 +2,21 @@ package e1;
 
 import java.util.ArrayList;
 
-import static e1.Residents.Category.Ghost;
-import static e1.Residents.Category.Student;
-import static e1.Staff.Category.Caretaker;
-import static e1.Staff.Category.Gamekeeper;
-
 public class School {
 
     private final ArrayList<Members> register;
 
     public School() { register = new ArrayList<>(); }
 
-    public void insertStudent(String name, String surname, int age, int horcruxes, Residents.House house) {
-        register.add(new Residents(name, surname, age, horcruxes, Student, house));
+    public void insertMember(Residents.Category category, String name, String surname, int age, int horcruxes, Residents.House house) {
+        register.add(new Residents(name, surname, age, horcruxes, category, house));
     }
 
-    public void insertGhost(String name, String surname, int age, int horcruxes, Residents.House house) {
-        register.add(new Residents(name, surname, age, horcruxes, Ghost, house));
+    public void insertMember(Staff.Category category, String name, String surname, int age, int horcruxes) {
+        register.add(new Staff(name, surname, age, horcruxes, category));
     }
 
-    public void insertGamekeeper(String name, String surname, int age, int horcruxes) {
-        register.add(new Staff(name, surname, age, horcruxes, Gamekeeper));
-    }
-
-    public void insertCaretaker(String name, String surname, int age, int horcruxes) {
-        register.add(new Staff(name, surname, age, horcruxes, Caretaker));
-    }
-
-    public void insertTeacher(String name, String surname, int age, int horcruxes, Teachers.Subject subject) {
+    public void insertMember(Teachers.Subject subject, String name, String surname, int age, int horcruxes) {
         register.add(new Teachers(name, surname, age, horcruxes, subject));
     }
 
@@ -42,21 +29,21 @@ public class School {
         if (member instanceof Residents) {
             Residents.Category category = ((Residents) member).getCategory();
             Residents.House house = ((Residents) member).getHouse();
-            double reward = ((Residents) member).getReward();
+            double reward = member.getReward();
             str = name + " " + surname + " (" + category + " of " + house + ", " + horcruxes + " horcruxes): "
                     + reward + " galleons";
             return str;
         }
         else if (member instanceof Staff) {
             Staff.Category category = ((Staff) member).getCategory();
-            double reward = ((Staff) member).getReward();
+            double reward = member.getReward();
             str = name + " " + surname + " (" + category + ", " + horcruxes + " horcruxes): "
                     + reward + " galleons";
             return str;
         }
         else if (member instanceof Teachers) {
             Teachers.Subject subject = ((Teachers) member).getSubject();
-            double reward = ((Teachers) member).getReward();
+            double reward = member.getReward();
             str = name + " " + surname + " (Teacher of " + subject + ", " + horcruxes + " horcruxes): "
                     + reward + " galleons";
             return str;
@@ -68,11 +55,11 @@ public class School {
         double total = 0.0;
         for (Members members : register) {
             if (members instanceof Residents)
-                total = total + ((Residents) members).getReward();
+                total = total + members.getReward();
             else if (members instanceof Staff)
-                total = total + ((Staff) members).getReward();
+                total = total + members.getReward();
             else if (members instanceof Teachers)
-                total = total + ((Teachers) members).getReward();
+                total = total + members.getReward();
         }
         return total;
     }
