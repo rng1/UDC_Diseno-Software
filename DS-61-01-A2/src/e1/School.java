@@ -9,29 +9,31 @@ import static e1.Staff.Category.Gamekeeper;
 
 public class School {
 
-    private ArrayList<Members> register;
+    private final ArrayList<Members> register;
 
-    void insertStudent(String name, String surname, int age, int horcruxes, Residents.House house) {
+    public School() { register = new ArrayList<>(); }
+
+    public void insertStudent(String name, String surname, int age, int horcruxes, Residents.House house) {
         register.add(new Residents(name, surname, age, horcruxes, Student, house));
     }
 
-    void insertGhost(String name, String surname, int age, int horcruxes, Residents.House house) {
+    public void insertGhost(String name, String surname, int age, int horcruxes, Residents.House house) {
         register.add(new Residents(name, surname, age, horcruxes, Ghost, house));
     }
 
-    void insertGamekeeper(String name, String surname, int age, int horcruxes) {
+    public void insertGamekeeper(String name, String surname, int age, int horcruxes) {
         register.add(new Staff(name, surname, age, horcruxes, Gamekeeper));
     }
 
-    void insertCaretaker(String name, String surname, int age, int horcruxes) {
+    public void insertCaretaker(String name, String surname, int age, int horcruxes) {
         register.add(new Staff(name, surname, age, horcruxes, Caretaker));
     }
 
-    void insertTeacher(String name, String surname, int age, int horcruxes, Teachers.Subject subject) {
+    public void insertTeacher(String name, String surname, int age, int horcruxes, Teachers.Subject subject) {
         register.add(new Teachers(name, surname, age, horcruxes, subject));
     }
 
-    String extractReward(Members member) {
+    public String extractReward(Members member) {
         String name = member.getF_name();
         String surname = member.getL_name();
         int horcruxes = member.getHorcruxes();
@@ -41,28 +43,28 @@ public class School {
             Residents.Category category = ((Residents) member).getCategory();
             Residents.House house = ((Residents) member).getHouse();
             double reward = ((Residents) member).getReward();
-            str = name + " " + surname + " (" + category + " of " + house + ", " + horcruxes + " horcruxes):"
-                    + reward + "galleons";
+            str = name + " " + surname + " (" + category + " of " + house + ", " + horcruxes + " horcruxes): "
+                    + reward + " galleons";
             return str;
         }
         else if (member instanceof Staff) {
             Staff.Category category = ((Staff) member).getCategory();
             double reward = ((Staff) member).getReward();
-            str = name + " " + surname + " (" + category + ", " + horcruxes + " horcruxes):"
-                    + reward + "galleons";
+            str = name + " " + surname + " (" + category + ", " + horcruxes + " horcruxes): "
+                    + reward + " galleons";
             return str;
         }
         else if (member instanceof Teachers) {
             Teachers.Subject subject = ((Teachers) member).getSubject();
             double reward = ((Teachers) member).getReward();
-            str = name + " " + surname + " (Teacher of" + subject + ", " + horcruxes + " horcruxes):"
-                    + reward + "galleons";
+            str = name + " " + surname + " (Teacher of " + subject + ", " + horcruxes + " horcruxes): "
+                    + reward + " galleons";
             return str;
         }
         throw new IllegalArgumentException();
     }
 
-    double totalReward(){
+    public double totalReward(){
         double total = 0.0;
         for (Members members : register) {
             if (members instanceof Residents)
@@ -75,14 +77,18 @@ public class School {
         return total;
     }
 
-    void printReward(){
+    public String printReward(){
+        StringBuilder string = new StringBuilder();
         for (Members members : register) {
-            System.out.println(extractReward(members));
+            //System.out.println(extractReward(members));
+            string.append(extractReward(members)).append("\n");
         }
-        System.out.println("The total reward for Hogwarts School is " + totalReward() + " galleons");
+        //System.out.println("The total reward for Hogwarts School is " + totalReward() + " galleons");
+        string.append("The total reward for Hogwarts School is ").append(totalReward()).append(" galleons");
+        return String.valueOf(string);
     }
 
-    int totalSalary(){
+    public int totalSalary(){
         int total = 0;
         for (Members members : register) {
             if (members instanceof Staff)
@@ -93,8 +99,7 @@ public class School {
         return total;
     }
 
-
-    String extractSalary(Members member) {
+    public String extractSalary(Members member) {
         String name = member.getF_name();
         String surname = member.getL_name();
         int age = member.getAge();
@@ -105,26 +110,30 @@ public class School {
         else if (member instanceof Staff) {
             Staff.Category category = ((Staff) member).getCategory();
             int salary = ((Staff) member).getSalary();
-            str = name + " " + surname + " (" + category + "):"
-                    + salary + "galleons";
+            str = name + " " + surname + " (" + category + "): "
+                    + salary + " galleons";
             return str;
         }
         else if (member instanceof Teachers) {
             Teachers.Subject subject = ((Teachers) member).getSubject();
             int salary = ((Teachers) member).getSalary();
-            str = name + " " + surname + " (Teacher of" + subject + "):"
-                    + salary + "galleons";
+            str = name + " " + surname + " (Teacher of " + subject + "): "
+                    + salary + " galleons";
             return str;
         }
         throw new IllegalArgumentException();
     }
 
-    void printSalary(){
+    public String printSalary(){
+        StringBuilder string = new StringBuilder();
         for (Members members : register) {
-            String str = extractReward(members);
-            if (str != null) System.out.println(str);
+            String str = extractSalary(members);
+            if (str != null) //System.out.println(str);
+                string.append(str).append("\n");
         }
-        System.out.println("The total payroll for Hogwarts School is " + totalSalary() + " galleons");
+        //System.out.println("The total payroll for Hogwarts School is " + totalSalary() + " galleons");
+        string.append("The total payroll for Hogwarts School is ").append(totalSalary()).append(" galleons");
+        return String.valueOf(string);
     }
 }
 

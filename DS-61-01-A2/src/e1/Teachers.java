@@ -7,7 +7,7 @@ public class Teachers extends Members{
     }
 
     public enum Subject {
-        Defense { public int salary() { return 500; } },
+        Defence { public int salary() { return 500; } },
         Transfiguration { public int salary() { return 400; } },
         Potions { public int salary() { return 350; } },
         Herbology { public int salary() { return 250; } },
@@ -25,9 +25,9 @@ public class Teachers extends Members{
     }
 
     double getReward() {
-        double bonus = 90.0;
+        double bonus = 50.0;
         double aux = getHorcruxes()* bonus;
-        if (this.subject == Subject.Defense) aux *= 0.75;
+        if (this.subject == Subject.Defence) aux *= 0.75;
         return aux;
     }
     int getSalary() { return this.getSubject().salary();}
