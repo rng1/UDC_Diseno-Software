@@ -1,22 +1,37 @@
 package e1;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class School {
 
-    private final ArrayList<Members> register;
+    public ArrayList<Members> register;
+
+    public int size ()
+    {
+        return register.size();
+    }
 
     public School() { register = new ArrayList<>(); }
 
     public void insertMember(Residents.Category category, String name, String surname, int age, int horcruxes, Residents.House house) {
+        if(category == null || house == null | horcruxes < 0 | age < 1) throw new IllegalArgumentException();
+        if(name == null) name = "";
+        if(surname == null) surname = "";
         register.add(new Residents(name, surname, age, horcruxes, category, house));
     }
 
     public void insertMember(Staff.Category category, String name, String surname, int age, int horcruxes) {
+        if(category == null | horcruxes < 0 | age < 1) throw new IllegalArgumentException();
+        if(name == null) name = "";
+        if(surname == null) surname = "";
         register.add(new Staff(name, surname, age, horcruxes, category));
     }
 
     public void insertMember(Teachers.Subject subject, String name, String surname, int age, int horcruxes) {
+        if(subject == null | horcruxes < 0 | age < 1) throw new IllegalArgumentException();
+        if(name == null) name = "";
+        if(surname == null) surname = "";
         register.add(new Teachers(name, surname, age, horcruxes, subject));
     }
 
@@ -121,6 +136,19 @@ public class School {
         //System.out.println("The total payroll for Hogwarts School is " + totalSalary() + " galleons");
         string.append("The total payroll for Hogwarts School is ").append(totalSalary()).append(" galleons");
         return String.valueOf(string);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        School school = (School) o;
+        return register.equals(school.register);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(register);
     }
 }
 
