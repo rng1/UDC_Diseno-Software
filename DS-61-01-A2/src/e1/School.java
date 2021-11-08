@@ -1,7 +1,6 @@
 package e1;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class School {
 
@@ -40,30 +39,27 @@ public class School {
         String surname = member.getL_name();
         int horcruxes = member.getHorcruxes();
         int age = member.getAge();
-        String str;
+        String str = "";
         if (member instanceof Residents) {
             Residents.Category category = ((Residents) member).getCategory();
             Residents.House house = ((Residents) member).getHouse();
             double reward = member.getReward();
             str = name + " " + surname + " (" + category + " of " + house + ", " + horcruxes + " horcruxes): "
                     + reward + " galleons";
-            return str;
         }
         else if (member instanceof Staff) {
             Staff.Category category = ((Staff) member).getCategory();
             double reward = member.getReward();
             str = name + " " + surname + " (" + category + ", " + horcruxes + " horcruxes): "
                     + reward + " galleons";
-            return str;
         }
-        else if (member instanceof Teachers) {
+        else {
             Teachers.Subject subject = ((Teachers) member).getSubject();
             double reward = member.getReward();
             str = name + " " + surname + " (Teacher of " + subject + ", " + horcruxes + " horcruxes): "
                     + reward + " galleons";
-            return str;
         }
-        throw new IllegalArgumentException();
+        return str;
     }
 
     public double totalReward(){
@@ -73,7 +69,7 @@ public class School {
                 total = total + members.getReward();
             else if (members instanceof Staff)
                 total = total + members.getReward();
-            else if (members instanceof Teachers)
+            else
                 total = total + members.getReward();
         }
         return total;
@@ -105,7 +101,7 @@ public class School {
         String name = member.getF_name();
         String surname = member.getL_name();
         int age = member.getAge();
-        String str;
+        String str = "";
         if (member instanceof Residents) {
             return null;
         }
@@ -114,16 +110,14 @@ public class School {
             int salary = ((Staff) member).getSalary();
             str = name + " " + surname + " (" + category + "): "
                     + salary + " galleons";
-            return str;
         }
-        else if (member instanceof Teachers) {
+        else {
             Teachers.Subject subject = ((Teachers) member).getSubject();
             int salary = ((Teachers) member).getSalary();
             str = name + " " + surname + " (Teacher of " + subject + "): "
                     + salary + " galleons";
-            return str;
         }
-        throw new IllegalArgumentException();
+        return str;
     }
 
     public String printSalary(){
@@ -136,19 +130,6 @@ public class School {
         //System.out.println("The total payroll for Hogwarts School is " + totalSalary() + " galleons");
         string.append("The total payroll for Hogwarts School is ").append(totalSalary()).append(" galleons");
         return String.valueOf(string);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        School school = (School) o;
-        return register.equals(school.register);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(register);
     }
 }
 

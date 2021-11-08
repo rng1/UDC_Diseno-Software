@@ -5,6 +5,8 @@ import java.util.List;
 
 public record Network(NetworkManager manager) {
 
+    void setNetwork() { manager.setNetwork(); }
+
     void addUser(String user, List<TopicOfInterest> topicsOfInterest) {
         manager.addUser(user, topicsOfInterest);
     }

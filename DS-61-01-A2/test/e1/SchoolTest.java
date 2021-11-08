@@ -101,22 +101,27 @@ public class SchoolTest {
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Student, "student", "2", 10, 1, null));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Student, "student", "3", 0, 1, Gryffindor));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Student, "student", "4", 10, -1, Gryffindor));
+        school.insertMember(Student, null, null, 10, 1, Gryffindor);
 
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(null, "ghost", "1", 10, 1, Gryffindor));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Ghost, "ghost", "2", 10, 1, null));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Ghost, "ghost", "3", 0, 1, Gryffindor));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Ghost, "ghost", "4", 10, -1, Gryffindor));
+        school.insertMember(Ghost, null, null, 10, 1, Gryffindor);
 
         assertThrows(IllegalArgumentException.class, () -> school.insertMember((Staff.Category) null, "gamekeeper", "1", 10, 1));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Gamekeeper, "gamekeeper", "2", 0, 1));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Gamekeeper, "gamekeeper", "3", 10, -1));
+        school.insertMember(Gamekeeper, null, null, 10, 1);
 
         assertThrows(IllegalArgumentException.class, () -> school.insertMember((Staff.Category) null, "caretaker", "1", 10, 1));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Caretaker, "caretaker", "2", 0, 1));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Caretaker, "caretaker", "3", 10, -1));
+        school.insertMember(Caretaker, null, null, 10, 1);
 
         assertThrows(IllegalArgumentException.class, () -> school.insertMember((Teachers.Subject) null, "teacher", "defense", 10, 1));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Defence, "teacher", "defense", 0, 1));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Defence, "teacher", "defense", 0, -1));
+        school.insertMember(Defence, null, null, 10, 1);
     }
 }

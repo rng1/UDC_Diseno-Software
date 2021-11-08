@@ -64,7 +64,7 @@ public class NetMap implements NetworkManager{
             for (int i = 1; i < network.size(); i++) {
                 userList = network.get(users.get(i));
                 for (int j = 0; j < userList.size(); j++) {
-                    topic = userList.get(0);
+                    topic = userList.get(j);
                     if (!topicList.contains(topic))
                         topicList.add(topic);
                 }
