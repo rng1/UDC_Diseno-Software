@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class School {
 
     public ArrayList<Members> register;
+    public enum Category { Student, Ghost, Caretaker, Gamekeeper}
 
     public int size ()
     {
@@ -13,21 +14,29 @@ public class School {
 
     public School() { register = new ArrayList<>(); }
 
-    public void insertMember(Residents.Category category, String name, String surname, int age, int horcruxes, Residents.House house) {
+    public void insertMember(Category category, String name, String surname, int age, int horcruxes, Members.House house) {
         if(category == null || house == null | horcruxes < 0 | age < 1) throw new IllegalArgumentException();
         if(name == null) name = "";
         if(surname == null) surname = "";
-        register.add(new Residents(name, surname, age, horcruxes, category, house));
+        switch(category) {
+            case Ghost -> register.add(new Ghosts(name, surname, age, horcruxes, house));
+            case Student -> register.add(new Students(name, surname, age, horcruxes, house));
+
+        }
     }
 
-    public void insertMember(Staff.Category category, String name, String surname, int age, int horcruxes) {
+    public void insertMember(Category category, String name, String surname, int age, int horcruxes) {
         if(category == null | horcruxes < 0 | age < 1) throw new IllegalArgumentException();
         if(name == null) name = "";
         if(surname == null) surname = "";
-        register.add(new Staff(name, surname, age, horcruxes, category));
+        switch(category) {
+            case Caretaker -> register.add(new Caretakers(name, surname, age, horcruxes));
+            case Gamekeeper -> register.add(new Gamekeepers(name, surname, age, horcruxes));
+
+        }
     }
 
-    public void insertMember(Teachers.Subject subject, String name, String surname, int age, int horcruxes) {
+    public void insertMember(String name, String surname, int age, int horcruxes, Teachers.Subject subject) {
         if(subject == null | horcruxes < 0 | age < 1) throw new IllegalArgumentException();
         if(name == null) name = "";
         if(surname == null) surname = "";
@@ -39,18 +48,27 @@ public class School {
         String surname = member.getL_name();
         int horcruxes = member.getHorcruxes();
         int age = member.getAge();
-        String str = "";
-        if (member instanceof Residents) {
-            Residents.Category category = ((Residents) member).getCategory();
-            Residents.House house = ((Residents) member).getHouse();
+        String str;
+        if (member instanceof Students) {
+            Members.House house = ((Students) member).getHouse();
             double reward = member.getReward();
-            str = name + " " + surname + " (" + category + " of " + house + ", " + horcruxes + " horcruxes): "
+            str = name + " " + surname + " (Student of " + house + ", " + horcruxes + " horcruxes): "
                     + reward + " galleons";
         }
-        else if (member instanceof Staff) {
-            Staff.Category category = ((Staff) member).getCategory();
+        else if (member instanceof Ghosts) {
+            Members.House house = ((Ghosts) member).getHouse();
             double reward = member.getReward();
-            str = name + " " + surname + " (" + category + ", " + horcruxes + " horcruxes): "
+            str = name + " " + surname + " (Ghost of " + house + ", " + horcruxes + " horcruxes): "
+                    + reward + " galleons";
+        }
+        else if (member instanceof Caretakers) {
+            double reward = member.getReward();
+            str = name + " " + surname + " (Caretaker, " + horcruxes + " horcruxes): "
+                    + reward + " galleons";
+        }
+        else if (member instanceof Gamekeepers) {
+            double reward = member.getReward();
+            str = name + " " + surname + " (Gamekeeper, " + horcruxes + " horcruxes): "
                     + reward + " galleons";
         }
         else {
@@ -65,11 +83,6 @@ public class School {
     public double totalReward(){
         double total = 0.0;
         for (Members members : register) {
-            if (members instanceof Residents)
-                total = total + members.getReward();
-            else if (members instanceof Staff)
-                total = total + members.getReward();
-            else
                 total = total + members.getReward();
         }
         return total;
@@ -89,10 +102,14 @@ public class School {
     public int totalSalary(){
         int total = 0;
         for (Members members : register) {
-            if (members instanceof Staff)
-                total = total + ((Staff) members).getSalary();
-            else if (members instanceof Teachers)
+            if (!(members instanceof Students) && !(members instanceof Ghosts)) {
+            if (members instanceof Caretakers)
+                total = total + ((Caretakers) members).getSalary();
+            else if (members instanceof Gamekeepers)
+                total = total + ((Gamekeepers) members).getSalary();
+            else
                 total = total + ((Teachers) members).getSalary();
+            }
         }
         return total;
     }
@@ -101,14 +118,18 @@ public class School {
         String name = member.getF_name();
         String surname = member.getL_name();
         int age = member.getAge();
-        String str = "";
-        if (member instanceof Residents) {
+        String str;
+        if (member instanceof Students || member instanceof Ghosts) {
             return null;
         }
-        else if (member instanceof Staff) {
-            Staff.Category category = ((Staff) member).getCategory();
-            int salary = ((Staff) member).getSalary();
-            str = name + " " + surname + " (" + category + "): "
+        else if (member instanceof Caretakers) {
+            int salary = ((Caretakers) member).getSalary();
+            str = name + " " + surname + " (Caretaker): "
+                    + salary + " galleons";
+        }
+        else if (member instanceof Gamekeepers) {
+            int salary = ((Gamekeepers) member).getSalary();
+            str = name + " " + surname + " (Gamekeeper): "
                     + salary + " galleons";
         }
         else {

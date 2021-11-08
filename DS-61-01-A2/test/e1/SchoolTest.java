@@ -3,12 +3,10 @@ package e1;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static e1.Residents.Category.Ghost;
-import static e1.Residents.Category.Student;
-import static e1.Residents.House.*;
-import static e1.Staff.Category.Caretaker;
-import static e1.Staff.Category.Gamekeeper;
-import static e1.Teachers.Subject.*;
+
+import static e1.Members.House.*;
+import static e1.Members.Subject.*;
+import static e1.School.Category.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SchoolTest {
@@ -21,8 +19,8 @@ public class SchoolTest {
         school.insertMember(Student, "Hermione", "Granger", 12, 3, Gryffindor);
         school.insertMember(Ghost, "Bloody", "Baron", 107, 1, Slytherin);
         school.insertMember(Gamekeeper, "Rubeus", "Hagrid", 56, 2);
-        school.insertMember(Transfiguration,"Minerva", "McGonagall", 71, 1);
-        school.insertMember(Defence, "Severus", "Snape", 49, 2);
+        school.insertMember("Minerva", "McGonagall", 71, 1, Transfiguration);
+        school.insertMember("Severus", "Snape", 49, 2, Defence);
         school.insertMember(Caretaker, "Argus", "Filch", 34, 0);
     }
     @Test
@@ -62,11 +60,11 @@ public class SchoolTest {
         schoolA.insertMember(Gamekeeper, "gamekeeper", "2", 10, 1);
         schoolA.insertMember(Caretaker, "caretaker", "1", 10, 1);
         schoolA.insertMember(Caretaker, "caretaker", "2", 10, 1);
-        schoolA.insertMember(Transfiguration,"teacher", "transfiguration", 10, 1);
-        schoolA.insertMember(Defence, "teacher", "defence", 10, 1);
-        schoolA.insertMember(Potions, "teacher", "potions", 10, 1);
-        schoolA.insertMember(Herbology, "teacher", "herbology", 10, 1);
-        schoolA.insertMember(History, "teacher", "history", 10, 1);
+        schoolA.insertMember("teacher", "transfiguration", 10, 1, Transfiguration);
+        schoolA.insertMember("teacher", "defence", 10, 1, Defence);
+        schoolA.insertMember("teacher", "potions", 10, 1, Potions);
+        schoolA.insertMember("teacher", "herbology", 10, 1, Herbology);
+        schoolA.insertMember("teacher", "history", 10, 1, History);
 
         assertEquals("""
                 student 1 (Student of Gryffindor, 1 horcruxes): 90.0 galleons
@@ -109,19 +107,19 @@ public class SchoolTest {
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Ghost, "ghost", "4", 10, -1, Gryffindor));
         school.insertMember(Ghost, null, null, 10, 1, Gryffindor);
 
-        assertThrows(IllegalArgumentException.class, () -> school.insertMember((Staff.Category) null, "gamekeeper", "1", 10, 1));
+        assertThrows(IllegalArgumentException.class, () -> school.insertMember(null, "gamekeeper", "1", 10, 1));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Gamekeeper, "gamekeeper", "2", 0, 1));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Gamekeeper, "gamekeeper", "3", 10, -1));
         school.insertMember(Gamekeeper, null, null, 10, 1);
 
-        assertThrows(IllegalArgumentException.class, () -> school.insertMember((Staff.Category) null, "caretaker", "1", 10, 1));
+        assertThrows(IllegalArgumentException.class, () -> school.insertMember(null, "caretaker", "1", 10, 1));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Caretaker, "caretaker", "2", 0, 1));
         assertThrows(IllegalArgumentException.class, () -> school.insertMember(Caretaker, "caretaker", "3", 10, -1));
         school.insertMember(Caretaker, null, null, 10, 1);
 
-        assertThrows(IllegalArgumentException.class, () -> school.insertMember((Teachers.Subject) null, "teacher", "defense", 10, 1));
-        assertThrows(IllegalArgumentException.class, () -> school.insertMember(Defence, "teacher", "defense", 0, 1));
-        assertThrows(IllegalArgumentException.class, () -> school.insertMember(Defence, "teacher", "defense", 0, -1));
-        school.insertMember(Defence, null, null, 10, 1);
+        assertThrows(IllegalArgumentException.class, () -> school.insertMember("teacher", "defense", 10, 1, null));
+        assertThrows(IllegalArgumentException.class, () -> school.insertMember("teacher", "defense", 0, 1, Defence));
+        assertThrows(IllegalArgumentException.class, () -> school.insertMember("teacher", "defense", 0, -1, Defence));
+        school.insertMember(null, null, 10, 1, Defence);
     }
 }

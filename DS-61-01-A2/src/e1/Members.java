@@ -5,6 +5,17 @@ public abstract class Members {
     private final String l_name;
     private final int age;
     private final int horcruxes;
+
+    public enum House { Gryffindor, Hufflepuff, Ravenclaw, Slytherin }
+    public enum Subject {
+        Defence { public int salary() { return 500; } },
+        Transfiguration { public int salary() { return 400; } },
+        Potions { public int salary() { return 350; } },
+        Herbology { public int salary() { return 250; } },
+        History { public int salary() { return 200; } };
+        public abstract int salary();
+    }
+
     public Members(String f_name, String l_name, int age, int horcruxes) {
         this.f_name = f_name;
         this.l_name = l_name;
