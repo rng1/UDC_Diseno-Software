@@ -13,12 +13,17 @@ public class NetMap implements NetworkManager{
 
     @Override
     public void addUser(String user, List<TopicOfInterest> topicsOfInterest) {
+        if(user == null)
+            user = "";
         network.put(user, topicsOfInterest);
     }
 
     @Override
     public void removeUser(String user) {
-        network.remove(user);
+        if(network.containsKey(user))
+            network.remove(user);
+        else
+            throw new IllegalArgumentException();
     }
 
     @Override
@@ -38,7 +43,10 @@ public class NetMap implements NetworkManager{
         List<TopicOfInterest> userList;
         if (network.containsKey(user)) {
             userList = network.get(user);
-            userList.remove(topicOfInterest);
+            if(userList.contains(topicOfInterest))
+                userList.remove(topicOfInterest);
+            else
+                throw new IllegalArgumentException();
             network.replace(user, network.get(user), userList);
         }
         else
@@ -60,11 +68,11 @@ public class NetMap implements NetworkManager{
             TopicOfInterest topic;
             List<TopicOfInterest> userList, topicList;
             userList = network.get(users.get(0));
-            topicList = userList;
+            topicList = new ArrayList<>(userList);
             for (int i = 1; i < network.size(); i++) {
                 userList = network.get(users.get(i));
-                for (int j = 0; j < userList.size(); j++) {
-                    topic = userList.get(j);
+                for (TopicOfInterest topicOfInterest : userList) {
+                    topic = topicOfInterest;
                     if (!topicList.contains(topic))
                         topicList.add(topic);
                 }
@@ -79,8 +87,11 @@ public class NetMap implements NetworkManager{
     public List<TopicOfInterest> getInterestsUser(String user) {
         List<TopicOfInterest> userList;
         if(network.containsKey(user)) {
-            userList = network.get(user);
-            return userList;
+            userList = new ArrayList<>(network.get(user));
+            if(!userList.isEmpty())
+                return userList;
+            else
+                return null;
         }
         else
             throw new IllegalArgumentException();
@@ -89,7 +100,7 @@ public class NetMap implements NetworkManager{
     @Override
     public List<TopicOfInterest> getInterestsCommon(String a, String b) {
         TopicOfInterest topicA;
-        List<TopicOfInterest> topicList = null, listA, listB;
+        List<TopicOfInterest> topicList, listA, listB;
         if (network.containsKey(a) && network.containsKey(b)) {
             listA = network.get(a);
             listB = network.get(b);
@@ -104,27 +115,45 @@ public class NetMap implements NetworkManager{
                 if (listB.contains(topicA))
                     topicList.add(topicA);
             }
+            if(topicList.isEmpty())
+                return null;
+            else
+                return topicList;
         }
-        return topicList;
+        else
+            return null;
     }
 
     @Override
-    public void printNetwork() {
+    public String printNetwork() {
         List<String> users = new ArrayList<>(network.keySet());
         String user, topic;
         StringBuilder info = new StringBuilder("-: ");
-        int i, j;
-        List<TopicOfInterest> userList;
-        for(i = 0; i < users.size(); i++) {
-            user = users.get(i);
-            userList = network.get(user);
-            info.append(String.format("%" + 8 + "s", user)).append(":");
-            for(j = 0; j < userList.size(); j++) {
-                topic = userList.get(j).topic();
-                info.append(String.format("%" + 8 + "s", topic));
+        if(!users.isEmpty()) {
+            int i, j;
+            List<TopicOfInterest> userList;
+            for(i = 0; i < users.size(); i++) {
+                user = users.get(i);
+                userList = network.get(user);
+                info.append(user).append(": ");
+                if(!userList.isEmpty()) {
+                    topic = userList.get(0).topic();
+                    info.append(topic);
+                    for (j = 1; j < userList.size(); j++) {
+                        topic = userList.get(j).topic();
+                        info.append(", ").append(topic);
+                    }
+                }
+                else
+                    info.append("[No interests found]");
+                if(i+1 != users.size())
+                    info.append("\n-: ");
             }
-            info.append("\n-: ");
+        }
+        else {
+            info = new StringBuilder("[No users found]");
         }
         System.out.println(info);
+        return String.valueOf(info);
     }
 }

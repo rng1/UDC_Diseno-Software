@@ -18,6 +18,8 @@ public class NetMatrix implements NetworkManager {
 
     @Override
     public void addUser(String user, List<TopicOfInterest> topicsOfInterest) {
+        if(user == null)
+            user = "";
         users.add(user);
         interests.add(topicsOfInterest);
     }
@@ -55,7 +57,10 @@ public class NetMatrix implements NetworkManager {
         if (users.contains(user)){
             index = users.indexOf(user);
             topicList = interests.get(index);
-            topicList.remove(topicOfInterest);
+            if(topicList.contains(topicOfInterest))
+                topicList.remove(topicOfInterest);
+            else
+                throw new IllegalArgumentException();
             interests.set(index, topicList);
         }
         else
@@ -64,7 +69,10 @@ public class NetMatrix implements NetworkManager {
 
     @Override
     public List<String> getUsers() {
-        return users;
+        if(!users.isEmpty())
+            return users;
+        else
+            return null;
     }
 
     @Override
@@ -75,7 +83,7 @@ public class NetMatrix implements NetworkManager {
         if (interests.isEmpty())
             return null;
         else {
-            topicList = interests.get(0);
+            topicList = new ArrayList<>(interests.get(0));
             for (pos = 1; pos < interests.size(); pos++) {
                 newList = interests.get(pos);
                 for (TopicOfInterest topicOfInterest : newList) {
@@ -94,8 +102,11 @@ public class NetMatrix implements NetworkManager {
         List<TopicOfInterest> topicList;
         if (users.contains(user)){
             index = users.indexOf(user);
-            topicList = interests.get(index);
-            return topicList;
+            topicList = new ArrayList<>(interests.get(index));
+            if(!topicList.isEmpty())
+                return topicList;
+            else
+                return null;
         }
         else
             throw new IllegalArgumentException();
@@ -104,7 +115,7 @@ public class NetMatrix implements NetworkManager {
     @Override
     public List<TopicOfInterest> getInterestsCommon(String a, String b) {
         TopicOfInterest topicA;
-        List<TopicOfInterest> topicList = null, listA, listB;
+        List<TopicOfInterest> topicList, listA, listB;
         int index;
         if (users.contains(a) && users.contains(b)) {
             index = users.indexOf(a);
@@ -114,6 +125,7 @@ public class NetMatrix implements NetworkManager {
         }
         else
             throw new IllegalArgumentException();
+
         if(!listA.isEmpty() && !listB.isEmpty()) {
             topicList = new ArrayList<>();
             for (TopicOfInterest topicOfInterest : listA) {
@@ -121,26 +133,44 @@ public class NetMatrix implements NetworkManager {
                 if (listB.contains(topicA))
                     topicList.add(topicA);
             }
+            if(topicList.isEmpty())
+                return null;
+            else
+                return topicList;
         }
-        return topicList;
+        else
+            return null;
     }
 
     @Override
-    public void printNetwork() {
+    public String printNetwork() {
         String user, topic;
         StringBuilder info = new StringBuilder("-: ");
         int i, j;
         List<TopicOfInterest> userList;
-        for(i = 0; i < users.size(); i++) {
-            user = users.get(i);
-            userList = interests.get(i);
-            info.append(String.format("%" + 8 + "s", user)).append(":");
-            for(j = 0; j < userList.size(); j++) {
-                topic = userList.get(j).topic();
-                info.append(String.format("%" + 8 + "s", topic));
+        if(!users.isEmpty()) {
+            for(i = 0; i < users.size(); i++) {
+                user = users.get(i);
+                userList = interests.get(i);
+                info.append(user).append(": ");
+                if(!userList.isEmpty()) {
+                    topic = userList.get(0).topic();
+                    info.append(topic);
+                    for (j = 1; j < userList.size(); j++) {
+                        topic = userList.get(j).topic();
+                        info.append(", ").append(topic);
+                    }
+                }
+                else
+                    info.append("[No interests found]");
+                if(i+1 != users.size())
+                    info.append("\n-: ");
             }
-            info.append("\n-: ");
+        }
+        else {
+            info = new StringBuilder("[No users found]");
         }
         System.out.println(info);
+        return String.valueOf(info);
     }
 }

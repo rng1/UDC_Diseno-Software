@@ -19,5 +19,5 @@ public interface NetworkManager {
     //returns the topics of interest for a given user.
 
     List<TopicOfInterest> getInterestsCommon(String a, String b);
-    void printNetwork();
+    String printNetwork();
 }

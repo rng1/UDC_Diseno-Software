@@ -39,8 +39,8 @@ public record Network(NetworkManager manager) {
         return manager.getInterestsCommon(a, b);
     }
 
-    void printNetwork() {
-        manager.printNetwork();
+    String printNetwork() {
+        return manager.printNetwork();
     }
 
 
