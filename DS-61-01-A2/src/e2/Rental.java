@@ -13,13 +13,10 @@ public class Rental {
         criterion = null;
     }
 
-    public void newApartment(int ref, double bP, int slots, double pP, double size, int b) {
-        if(ref < 0 || bP < 0 || slots < 0 || pP < 0 || size < 0 || b < 0)
+    public void newApartment(double bP, int slots, double pP, double size, int b) {
+        if(bP < 0 || slots < 0 || pP < 0 || size < 0 || b < 0)
             throw new IllegalArgumentException();
-        for (Apartments apartments : vector) {
-            if (ref == apartments.reference())
-                throw new IllegalArgumentException();
-        }
+        int ref = vector.size() + 1;
         vector.add(new Apartments(ref, bP, slots, pP, size, b));
     }
 
@@ -38,7 +35,7 @@ public class Rental {
             Apartments a;
             for (Apartments apartments : vector) {
                 a = apartments;
-                string.append("-: Apartament [").append(a.reference()).append("] of ").append(a.size()).append(" meters square with ").append(a.baths()).append(" bathrooms and ").append(a.slots())
+                string.append("-: Apartment [").append(a.reference()).append("] of ").append(a.size()).append(" meters square with ").append(a.baths()).append(" bathrooms and ").append(a.slots())
                         .append(" slots - Base price of ").append(a.bPrice()).append(" and ").append(a.pPrice()).append(" per slot. (Max price of ").append(a.tPrice()).append(")\n");
             }
             return string.toString();
