@@ -3,34 +3,51 @@ package e1;
 import java.util.ArrayList;
 import java.util.List;
 
+import static e1.TicketManager.Comparator.EQUAL;
+
 public class TicketManager{
     public enum Operator {AND, OR}
+    public enum Comparator {LESS, EQUAL_LESS, EQUAL, EQUAL_MORE, MORE}
+    List<Ticket> fullList;
+    List<Ticket> finalList;
 
-    List<Ticket> fullList = new ArrayList<>();
-    public SearchEngine category;
-    public CommandHandler handler = new CommandHandler_I();
+    public TicketManager() {
+        fullList = new ArrayList<>();
+        finalList = new ArrayList<>();
+    }
 
     //public abstract <T> List<T> searchTickets(String str, List<T> fullList);
 
-    public List<Ticket> searchTickets(String str) {
-        List<Ticket> tempList = new ArrayList<>();
-        String[] splited = str.split(" ");
-        int i;
-        Operator op;
+    public List<Ticket> searchTickets(SearchEngine criterion) {
+        finalList = criterion.searchBy(fullList, EQUAL);
+        return finalList;
+    }
 
-        category = handler.getCategory(splited[0]);
-        category.searchBy(handler.getValue(splited[1]), handler.getComparator(splited[1]), fullList, tempList);
-
-        for(i = 2; i < splited.length; i+=2){
-            op = Operator.valueOf(splited[i]);
-            category = handler.getCategory(splited[++i]);
-            if(op == Operator.AND)
-                category.searchBy(handler.getValue(splited[++i]), handler.getComparator(splited[++i]), tempList, tempList);
-            else if(op == Operator.OR)
-                category.searchBy(handler.getValue(splited[++i]), handler.getComparator(splited[++i]), fullList, tempList);
-            else
-                throw new IllegalArgumentException();
+    public List<Ticket> searchTickets(Operator operator, SearchEngine criterion) {
+        List<Ticket> tempList;
+        switch (operator){
+            case AND -> finalList = criterion.searchBy(finalList, EQUAL);
+            case OR -> {
+                tempList = new ArrayList<>(criterion.searchBy(fullList, EQUAL));
+                tempList.removeAll(finalList);
+                finalList.addAll(tempList);
+            }
+            default -> throw new IllegalArgumentException();
         }
-        return tempList;
+        return finalList;
+    }
+
+    public List<Ticket> searchTickets(Operator operator, Comparator comparator, SearchEngine criterion) {
+        List<Ticket> tempList;
+        switch (operator){
+            case AND -> finalList = criterion.searchBy(finalList, comparator);
+            case OR -> {
+                tempList = new ArrayList<>(criterion.searchBy(fullList, comparator));
+                tempList.removeAll(finalList);
+                finalList.addAll(tempList);
+            }
+            default -> throw new IllegalArgumentException();
+        }
+        return finalList;
     }
 }

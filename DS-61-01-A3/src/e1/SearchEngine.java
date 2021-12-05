@@ -1,7 +1,8 @@
 package e1;
 
 import java.util.List;
+import e1.TicketManager.Comparator;
 
 interface SearchEngine {
-    void searchBy(String value, CommandHandler.Comparator comparator, List<Ticket> ogList, List<Ticket> targetList);
+    List<Ticket> searchBy(List<Ticket> targetList, Comparator comparator);
 }
