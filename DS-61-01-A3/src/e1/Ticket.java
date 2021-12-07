@@ -1,8 +1,8 @@
 package e1;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-record Ticket(String origin, String destination, double price, Date date) {
+record Ticket(String origin, String destination, double price, LocalDate date) {
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -14,11 +14,6 @@ record Ticket(String origin, String destination, double price, Date date) {
             return false;
         if(this.price != ticket.price)
             return false;
-        return this.date == ticket.date;
-    }
-
-    @Override
-    public String toString() {
-        return "TICKET [origin=" + origin + ", destination=" + destination + ", price=" + price + ", date=" + date;
+        return true;
     }
 }
