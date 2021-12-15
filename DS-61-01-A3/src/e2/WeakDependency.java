@@ -5,24 +5,25 @@ import java.util.*;
 public class WeakDependency implements GraphIterator{
     Queue<Character> graphList = new LinkedList<>();
     Queue<Character> tempList = new PriorityQueue<>();
-    GraphHandler handler = new Handler();
+    Character tempChar;
 
     @Override
-    public Queue<Character> traverseGraph(Map<Character, List<Character>> graph) {
+    public Queue<Character> traverseGraph(Graph graph) {
         while(!graph.isEmpty()){
-            for (Map.Entry<Character, List<Character>> entry : graph.entrySet()) {
-                if(handler.isAvailable(entry.getKey(), graph))
+            for (Map.Entry<Character, List<Character>> entry : graph.getMap().entrySet()) {
+                if(graph.isAvailable(entry.getKey()))
                     tempList.add(entry.getKey());
             }
             while(!tempList.isEmpty()){
-                if(!graph.get(tempList.element()).isEmpty())
-                    for(Character subelement : graph.get(tempList.element())){
+                tempChar = tempList.element();
+                if(!graph.getMap().get(tempChar).isEmpty())
+                    for(Character subelement : graph.getMap().get(tempChar)){
                         if(!tempList.contains(subelement))
                             tempList.add(subelement);
                     }
-                handler.freeNode(tempList.element(), graph);
-                graphList.add(tempList.element());
-                tempList.remove(tempList.element());
+                graph.freeNode(tempChar);
+                graphList.add(tempChar);
+                tempList.remove(tempChar);
             }
         }
         return graphList;

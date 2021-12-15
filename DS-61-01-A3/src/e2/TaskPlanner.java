@@ -1,27 +1,46 @@
 package e2;
 
 import java.io.*;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class TaskPlanner {
-    Queue<Character> queueTask;
-    Map<Character, List<Character>> graphTask;
+    Queue<Character> queue;
+    List<Character> tempList;
+    Graph graph;
 
     public TaskPlanner() {
-        queueTask = new PriorityQueue<>();
+        queue = new PriorityQueue<>();
+        graph = new Graph();
     }
 
     public void planTask(File file, GraphIterator iterator) {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
+            String[] splitted;
+            Character father, child;
             while ((line = br.readLine()) != null) {
-                // process the line
+                splitted = line.split(" ");
+                father = splitted[0].charAt(0);
+                child = splitted[2].charAt(0);
+                if(!graph.getMap().containsKey(father)){
+                    tempList = new ArrayList<>();
+                    tempList.add(child);
+                }
+                else {
+                    tempList = graph.getMap().get(father);
+                    tempList.add(child);
+                    Comparator<Character> comparador = Collections.reverseOrder();
+                    tempList.sort(comparador);
+                }
+                graph.getMap().put(father, tempList);
+                if(!graph.getMap().containsKey(child)) {
+                    tempList = new ArrayList<>();
+                    graph.getMap().put(child, tempList);
+                }
             }
         } catch (IOException e) { e.printStackTrace(); }
 
-        queueTask = iterator.traverseGraph(graphTask);
+        queue = iterator.traverseGraph(graph);
     }
+
 }

@@ -5,5 +5,5 @@ import java.util.Map;
 import java.util.Queue;
 
 public interface GraphIterator {
-    Queue<Character> traverseGraph(Map<Character, List<Character>> graph);
+    Queue<Character> traverseGraph(Graph graph);
 }

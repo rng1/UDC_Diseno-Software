@@ -1,12 +1,26 @@
 package e2;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Handler implements GraphHandler{
+public class Graph {
+    Map<Character, List<Character>> graph;
     List<Character> tempList;
 
-    public boolean isAvailable(Character target, Map<Character, List<Character>> graph) {
+    public Graph(){
+        graph = new HashMap<>();
+    }
+
+    public boolean isEmpty(){
+        return graph.isEmpty();
+    }
+
+    public Map<Character, List<Character>> getMap() {
+        return graph;
+    }
+
+    public boolean isAvailable(Character target) {
         //IF THE ELEMENT IS IN SOMEBODY LISTS IT MEANS IT IS A CHILD
         for (Map.Entry<Character, List<Character>> entry : graph.entrySet()) {
             if(target != entry.getKey()){
@@ -18,7 +32,7 @@ public class Handler implements GraphHandler{
         return true;
     }
 
-    public void freeNode(Character target, Map<Character, List<Character>> graph) {
+    public void freeNode(Character target) {
         //REMOVE THE ELEMENT
         graph.remove(target);
         //REMOVE THE ELEMENT OF ANYONE'S LIST
@@ -29,4 +43,3 @@ public class Handler implements GraphHandler{
         }
     }
 }
-
