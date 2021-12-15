@@ -1,39 +1,51 @@
 package e1;
 
-import e1.TicketManager.Comparator;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public record Date(LocalDate value) implements SearchEngine {
+import static e1.TicketSearch.Operator.E;
+
+public class Date implements TicketSearch {
+    LocalDate value;
+    Operator condition;
+    List<Ticket> tempList;
+
+    public Date(LocalDate value, Operator condition) {
+        this.value = value;
+        this.condition = condition;
+    }
+
+    public Date(LocalDate value) {
+        this.value = value;
+        this.condition = E;
+    }
 
     @Override
-    public List<Ticket> searchBy(List<Ticket> targetList, Comparator comparator) {
-        List<Ticket> tempList = new ArrayList<>();
-        for (Ticket ticket : targetList)
-            switch (comparator) {
-                case LESS -> {
+    public List<Ticket> searchTicket(List<Ticket> list) {
+        tempList = new ArrayList<>();
+        for (Ticket ticket : list)
+            switch(condition){
+                case S -> {
                     if (ticket.date().isBefore(value))
                         tempList.add(ticket);
                 }
-                case EQUAL_LESS -> {
-                    if (ticket.date().isBefore(value) && ticket.date().isEqual(value))
+                case ES -> {
+                    if (ticket.date().isBefore(value) || ticket.date().isEqual(value))
                         tempList.add(ticket);
                 }
-                case EQUAL -> {
+                case E -> {
                     if (ticket.date().isEqual(value))
                         tempList.add(ticket);
                 }
-                case EQUAL_MORE -> {
-                    if (ticket.date().isAfter(value) && ticket.date().isEqual(value))
+                case EG -> {
+                    if (ticket.date().isAfter(value) || ticket.date().isEqual(value))
                         tempList.add(ticket);
                 }
-                case MORE -> {
+                case G -> {
                     if (ticket.date().isAfter(value))
                         tempList.add(ticket);
                 }
-                default -> throw new IllegalArgumentException();
             }
         return tempList;
     }

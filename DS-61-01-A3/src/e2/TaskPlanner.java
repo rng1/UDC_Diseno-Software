@@ -40,6 +40,7 @@ public class TaskPlanner {
             }
         } catch (IOException e) { e.printStackTrace(); }
 
+        //ACTUAL PROGRAM
         queue = iterator.traverseGraph(graph);
     }
 

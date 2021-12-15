@@ -1,40 +1,51 @@
 package e1;
 
-import e1.TicketManager.Comparator;
-
 import java.util.ArrayList;
 import java.util.List;
 
-record Price(double value) implements SearchEngine {
+import static e1.TicketSearch.Operator.E;
+
+public class Price implements TicketSearch {
+    double value;
+    Operator condition;
+    List<Ticket> tempList;
+
+    public Price(Double value, Operator condition) {
+        this.value = value;
+        this.condition = condition;
+    }
+
+    public Price(Double value) {
+        this.value = value;
+        this.condition = E;
+    }
 
     @Override
-    public List<Ticket> searchBy(List<Ticket> targetList, Comparator comparator){
-        List<Ticket> tempList = new ArrayList<>();
-        for (Ticket ticket : targetList)
-            switch(comparator){
-                case LESS -> {
+    public List<Ticket> searchTicket(List<Ticket> list) {
+        tempList = new ArrayList<>();
+        for (Ticket ticket : list)
+            switch(condition){
+                case S -> {
                     if (ticket.price() < value)
                         tempList.add(ticket);
                 }
-                case EQUAL_LESS -> {
+                case ES -> {
                     if (ticket.price() <= value)
                         tempList.add(ticket);
                 }
-                case EQUAL -> {
+                case E -> {
                     if (ticket.price() == value)
                         tempList.add(ticket);
                 }
-                case EQUAL_MORE -> {
+                case EG -> {
                     if (ticket.price() >= value)
                         tempList.add(ticket);
                 }
-                case MORE -> {
+                case G -> {
                     if (ticket.price() > value)
                         tempList.add(ticket);
                 }
-                default -> throw new IllegalArgumentException();
             }
-
         return tempList;
     }
 }

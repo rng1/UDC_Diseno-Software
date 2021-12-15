@@ -2,19 +2,19 @@ package e1;
 
 import java.util.ArrayList;
 import java.util.List;
-import e1.TicketManager.Comparator;
-import static e1.TicketManager.Comparator.EQUAL;
 
-record Origin(String value) implements SearchEngine {
+public class Origin implements TicketSearch {
+    String value;
+    List<Ticket> tempList;
+
+    public Origin(String value) {
+        this.value = value;
+    }
 
     @Override
-    public List<Ticket> searchBy(List<Ticket> targetList, Comparator comparator){
-        List<Ticket> tempList = new ArrayList<>();
-
-        if(comparator != EQUAL)
-            throw new IllegalArgumentException();
-
-        for (Ticket ticket : targetList)
+    public List<Ticket> searchTicket(List<Ticket> list) {
+        tempList = new ArrayList<>();
+        for (Ticket ticket : list)
             if (ticket.origin().equals(value))
                 tempList.add(ticket);
         return tempList;
