@@ -9,7 +9,7 @@ public class WeakDependency implements GraphIterator{
 
     @Override
     public Queue<Character> traverseGraph(Graph graph) {
-        while(!graph.isEmpty()){
+        while(graph.isNotEmpty()){
             for (Map.Entry<Character, List<Character>> entry : graph.getMap().entrySet()) {
                 if(graph.isAvailable(entry.getKey()))
                     tempList.add(entry.getKey());

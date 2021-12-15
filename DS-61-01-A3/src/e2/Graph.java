@@ -12,8 +12,8 @@ public class Graph {
         graph = new HashMap<>();
     }
 
-    public boolean isEmpty(){
-        return graph.isEmpty();
+    public boolean isNotEmpty(){
+        return !graph.isEmpty();
     }
 
     public Map<Character, List<Character>> getMap() {

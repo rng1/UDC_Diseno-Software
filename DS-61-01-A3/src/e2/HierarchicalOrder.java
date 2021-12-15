@@ -16,7 +16,7 @@ public class HierarchicalOrder implements GraphIterator{
                 }
             }
         }
-        while(!graph.isEmpty()){
+        while(graph.isNotEmpty()){
             for(Character element : graphList)
                 graph.freeNode(element);
             while(!tempList.isEmpty()){
