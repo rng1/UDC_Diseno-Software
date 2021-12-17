@@ -25,6 +25,7 @@ public class TaskPlanner {
                 //REVISE FORMAT
                 if(splitted.length != 3 || splitted[0].length() != 1 || splitted[2].length() != 1 || !splitted[1].equals("->"))
                     System.out.print("Error, line " + lineCount + ": " + line + "\n");
+                    //throw new IllegalArgumentException();
                 else {
                     father = splitted[0].charAt(0);
                     child = splitted[2].charAt(0);
