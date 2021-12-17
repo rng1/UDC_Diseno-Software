@@ -7,8 +7,8 @@
       <sourceFolder url="file://$MODULE_DIR$/DS-61-01-A1/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/DS-61-01-A2/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DS-61-01-A2/test" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/DS-61-01-A3/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/DS-61-01-A3/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/DS-61-01-DA/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DS-61-01-DA/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/DS-61-01-A2/src/e4" />
     </content>
     <orderEntry type="jdk" jdkName="openjdk-16" jdkType="JavaSDK" />
