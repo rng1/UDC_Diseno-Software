@@ -66,6 +66,7 @@ public class TaskPlannerTest {
     void exceptionTest(){
         TaskPlanner planner = new TaskPlanner();
         assertThrows(IllegalArgumentException.class, () -> planner.graph.isAvailable('A'));
+        planner.graph.isAvailable(null);
 
         Queue<Character> testQueue = new LinkedList<>();
         testQueue.add('A');
