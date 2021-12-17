@@ -22,7 +22,7 @@ public class TaskPlanner {
             while ((line = br.readLine()) != null) {
                 lineCount++;
                 splitted = line.split("\\s+");
-                //REVISE FORMAT
+                //REVISE FORMAT SO IN CASE OR ERROR OR OTHER KIND OF TEXT THE PROGRAM DOESN'T COLLAPSE
                 if(splitted.length != 3 || splitted[0].length() != 1 || splitted[2].length() != 1 || !splitted[1].equals("->"))
                     System.out.print("Error, line " + lineCount + ": " + line + "\n");
                     //throw new IllegalArgumentException();
