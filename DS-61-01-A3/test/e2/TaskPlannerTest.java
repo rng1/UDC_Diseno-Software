@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TaskPlannerTest {
     private final TaskPlanner planner = new TaskPlanner();
@@ -18,7 +19,7 @@ public class TaskPlannerTest {
 
     @BeforeEach
     void setUp(){
-        text = new File("test/e2/graph1");
+        text = new File("test/e2/graphBasic");
         //C - A - B - D - G - F - E - H - J
         testStrongQueue.add('C');
         testStrongQueue.add('A');
@@ -59,5 +60,22 @@ public class TaskPlannerTest {
         assertEquals(testWeakQueue, planner.queue);
         planner.planTask(text, new HierarchicalOrder());
         assertEquals(testOrderQueue, planner.queue);
+    }
+
+    @Test
+    void exceptionTest(){
+        TaskPlanner planner = new TaskPlanner();
+        assertThrows(IllegalArgumentException.class, () -> planner.graph.isAvailable('A'));
+
+        Queue<Character> testQueue = new LinkedList<>();
+        testQueue.add('A');
+        testQueue.add('E');
+        text = new File("test/e2/graphBad");
+        planner.planTask(text, new StrongDependency());
+        assertEquals(testQueue, planner.queue);
+        planner.planTask(text, new WeakDependency());
+        assertEquals(testQueue, planner.queue);
+        planner.planTask(text, new HierarchicalOrder());
+        assertEquals(testQueue, planner.queue);
     }
 }

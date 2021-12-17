@@ -11,12 +11,18 @@ public class Price implements TicketSearch {
     List<Ticket> tempList;
 
     public Price(Double value, Operator condition) {
-        this.value = value;
+        if(value > 0)
+            this.value = value;
+        else
+            throw new IllegalArgumentException();
         this.condition = condition;
     }
 
     public Price(Double value) {
-        this.value = value;
+        if(value > 0)
+            this.value = value;
+        else
+            throw new IllegalArgumentException();
         this.condition = E;
     }
 

@@ -21,6 +21,9 @@ public class Graph {
     }
 
     public boolean isAvailable(Character target) {
+        //CHECK IF EXISTS
+        if(!graph.containsKey(target) && target != null)
+            throw new IllegalArgumentException();
         //IF THE ELEMENT IS IN SOMEBODY LISTS IT MEANS IT IS A CHILD
         for (Map.Entry<Character, List<Character>> entry : graph.entrySet()) {
             if(target != entry.getKey()){

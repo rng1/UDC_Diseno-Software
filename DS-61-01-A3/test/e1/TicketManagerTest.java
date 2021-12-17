@@ -9,6 +9,7 @@ import java.util.List;
 
 import static e1.TicketSearch.Operator.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TicketManagerTest {
     SearchEngine manager;
@@ -345,6 +346,12 @@ class TicketManagerTest {
         manager = new SearchEngine(new Price(15.84, G));
         manager.AND(new Price( 15.86, S));
         assertEquals(tempList, manager.searchTicket(originalList));
+    }
 
+    @Test
+    void exceptionTest() {
+        manager = new SearchEngine();
+        assertThrows(IllegalArgumentException.class, () -> manager.AND(new Price( -1., S)));
+        assertThrows(IllegalArgumentException.class, () -> manager.AND(new Price( -1.)));
     }
 }
